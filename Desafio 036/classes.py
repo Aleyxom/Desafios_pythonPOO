@@ -1,9 +1,13 @@
 from abc import ABC, abstractmethod
+import locale
+from symtable import Symbol
+
+locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
 
 class Pagamento(ABC):
     def __init__(self, valor:float|int = 0):
         self._valor = valor
-        self.fvalor = f"R$ {valor:.2f}"
+        self.fvalor = ""
 
     @property
     def valor(self):
@@ -11,7 +15,7 @@ class Pagamento(ABC):
     @valor.setter
     def valor(self, valor):
         self._valor = valor
-        self.fvalor = f"R$ {valor:.2f}"
+        self.fvalor = locale.currency(self._valor, grouping=True)
 
     def pagar(self):
         print("Pagamento feito!")
