@@ -9,28 +9,30 @@ class Carrinho:
 
     @property
     def total(self):
+        self._total = 0
         for produto in self.produtos:
             self._total += produto.preco
-        return f"R${self._total}"
-
+        return f"R${self._total:.2f}"
     @total.setter
     def total(self, valor):
         print("Erro! Você não pode mexer nisso assim!")
 
-    def __iadd__(self, objeto):
-        self.produtos.append(objeto)
+    def __add__(self, objeto):
+        if objeto.__class__.__name__ == "Carrinho":
+            for obj in objeto.produtos:
+                self.produtos.append(obj)
+        elif objeto.__class__.__name__ == "Produto":
+            self.produtos.append(objeto)
 
     def __str__(self):
         txt = ""
         for produto in self.produtos:
-            txt += f"{produto.nome:<30}{produto.preco:.2f:<7}"
+            txt += f"{produto.nome:<30}R${produto.preco:>7.2f}"
             txt += "\n"
-        txt += "_" * 37
+        txt += "_" * 39
         txt += "\n"
-        txt += f"{self.total:>37}"
-        painel = Panel(txt, title="Recibo")
-        print(painel)
-
+        txt += f"{self.total:>39}"
+        return txt
 # -----------------------------------------------------------------------------------------------------------
 
 # PRODUTOS --------------------------------------------------------------------------------------------------
