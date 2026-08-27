@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<alunos>
+     <aluno>
+          <nome>Aleyxom</nome>
+          <curso>TI</curso>
+          <serie>3</serie>
+     </aluno>
+     <aluno>
+          <nome>Ana</nome>
+          <curso>Farmacia</curso>
+          <serie>1</serie>
+     </aluno>
+     <aluno>
+          <nome>Paula</nome>
+          <curso>ADM</curso>
+          <serie>2</serie>
+     </aluno>
+</alunos>
