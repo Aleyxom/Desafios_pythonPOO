@@ -1,11 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
-<usuarios>
-     <usuario>
-          <nome>Aleyxom</nome>
-          <email>aleyxom@gmail.com</email>
-     </usuario>
-     <usuario>
-          <nome>Ana Paula</nome>
-          <email>anapaula@outlook.com</email>
-     </usuario>
-</usuarios>
+<<built-in method lower of str object at 0x000001D4097B0DE0>s>
+    <usuario>
+        <nome>Aleyxom</nome>
+        <email>aleyxom@gmail.com</email>
+    </usuario>
+    <usuario>
+        <nome>Ana Paula</nome>
+        <email>anapaula@outlook.com</email>
+    </usuario>
+    <usuario>
+        <nome>Luan</nome>
+        <email>luan@gmail.com</email>
+    </usuario>
+</<built-in method lower of str object at 0x000001D4097B0DE0>s>

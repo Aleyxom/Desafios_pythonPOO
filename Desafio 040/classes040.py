@@ -1,7 +1,5 @@
 import xml.etree.ElementTree as ET
-
-from openpyxl.descriptors import String
-
+import json
 
 class Aluno:
     def __init__(self, nome:str = "<empty>", curso:str = "<empty>", serie:int = 0):
@@ -16,40 +14,40 @@ class Usuario:
 
 class JSON:
     def exportar(self, classe):
-        pass
+        dados = []
+
+        for obj in classe:
+            dados.append(obj.__dict__)
+        with open(f"{classe[0].__class__.__name__}s.json", "w", encoding="utf-8") as arquivo:
+            json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+
+        print(json.dumps(dados, indent=4, ensure_ascii=False))
 
 class XML:
     def exportar(self, lista):
-        root = ""
+        # Criar a tag principal <usuarios> ou <alunos> ----------------------------------------------------------
+        root = ET.Element(f"{lista[0].__class__.__name__.lower}s")
 
         if lista[0].__class__.__name__ == "Usuario":
-            # Criar a tag principal <usuarios> -------------------------------------------------------------------
-            root = ET.Element("usuarios")
-
             for u in lista:
                 # criando tag <usuario> para cada usuario na lista passada---------------------------------------
                 elemento_u = ET.SubElement(root, "usuario")
-
                 # criando tags dos dados e seus valores-----------------------------------------------------------
                 ET.SubElement(elemento_u, "nome").text = u.nome
                 ET.SubElement(elemento_u, "email").text = u.email
 
         elif lista[0].__class__.__name__ == "Aluno":
-            # Criar a tag principal <alunos> -------------------------------------------------------------------
-            root = ET.Element("alunos")
-
             for a in lista:
-                # criando tag <aluno> para cada aluno na lista passada---------------------------------------
+                # criando tag <aluno> para cada aluno na lista passada--------------------------------------------
                 elemento_a = ET.SubElement(root, "aluno")
-
                 # criando tags dos dados e seus valores-----------------------------------------------------------
                 ET.SubElement(elemento_a, "nome").text = a.nome
                 ET.SubElement(elemento_a, "curso").text = a.curso
                 ET.SubElement(elemento_a, "serie").text = str(a.serie)
 
-        # Criando arquivo XML
+        # Criando arquivo XML ------------------------------------------------------------------------------------
         tree = ET.ElementTree(root)
-        ET.indent(tree, space="     ")  # indentação
+        ET.indent(tree, space="    ")  # indentação
         tree.write(f"{lista[0].__class__.__name__}s.xml", encoding="utf-8", xml_declaration=True)
 
         with open(f"{lista[0].__class__.__name__}s.xml", "r", encoding="utf-8") as arquivo:
