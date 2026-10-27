@@ -1,5 +1,5 @@
 import sqlite3
-from datetime import datetime
+from datetime import date
 
 busca = str(input("Quem você está procurando? ")).strip()
 
@@ -12,26 +12,39 @@ try:
         total = 0
 
         for total, amigo in enumerate(cur, start=1):
-            try:
-                data_formatada = datetime.strptime(amigo["nascimento"], "%Y-%m-%d")
-                data = str(amigo['nascimento']).split('-')
-                dataBrasil = f"{data[2]}-{data[1]}-{data[0]}"
 
-                nascimento = data_formatada.date()
-                hoje = datetime.today()
+            txt_nasc = amigo['nascimento']
+            info_nasc = ""
+            info_idade = ""
 
-                idade = hoje.year - nascimento.year
-                if (hoje.month, hoje.day) < (nascimento.month, nascimento.day):
-                    idade -= 1
+            if not txt_nasc:
+                info_nasc = "sem data de nascimento."
+                info_idade = "não foi possível calcular idade."
+            else:
+                try:
+                    data = date.fromisoformat(str(txt_nasc))
+                    info_nasc = f"nasceu em {data:%d/%m/%Y}"
+                    nascimento = data
+                    hoje = date.today()
 
-            except (ValueError, TypeError):
-                dataBrasil = f"Data inválida '{amigo["nascimento"]}'"
-                idade = "erro"
+                    idade = hoje.year - nascimento.year
+                    if (hoje.month, hoje.day) < (nascimento.month, nascimento.day): # tem que ser nessa ordem mm/dd
+                        idade -= 1
 
-            print(f"{amigo['nome']} nasceu em {dataBrasil} e tem {idade} anos de idade.")
+                    info_idade = f"e tem {idade} anos."
+
+                except (ValueError, TypeError):
+                    info_nasc = f"Data inválida '{amigo["nascimento"]}'"
+                    info_idade = "não foi possível calcular idade."
+
+            print(f"{amigo['nome']} {info_nasc} {info_idade}.")
+
+        print("-=" * 40)
 
         if total == 0:
             print(f"Não encontrei nenhum registro com: '{busca}'")
+        elif total == 1:
+            print(f"Encontrei apenas {total} resultado com '{busca}'")
         else:
             print(f"Encontrei {total} resultados com '{busca}'")
 
