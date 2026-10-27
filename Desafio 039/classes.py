@@ -1,6 +1,4 @@
 from abc import ABC, abstractmethod
-
-from pip._internal.commands import search
 from rich import print
 import re
 
